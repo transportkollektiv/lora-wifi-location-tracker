@@ -2,6 +2,8 @@
 
 Lortinchen is a small PCB combining an ESP8266 with an RFM96 for Lora Communication. We use this as a Wifi location tracker in our OpenBike project to track our Bikes.
 
+![](./images/lortinchen.jpg)
+
 ## Flash firmware
 
 To flash firmware before soldering the ESP on the PCB, you can use an *ESP-12 test board fixture programmer*. So you don't need to solder a connection to a Serial-USB-Adapter and don't need the flash and reset buttons.
