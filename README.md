@@ -5,7 +5,7 @@ The location is not calculated on the device. The small data for calculating the
 
 ## Hardware
 
-You can find .brd and .sch files (created in eagle) and the ready to use gerber files for the *lortinchen*-PCB in the `hardware` folder. More info in `README.md` in the hardware folder.
+You can find .brd and .sch files (created in eagle) and the ready to use gerber files for the *lortinchen*-PCB in the `hardware` folder. More info in [`README.md`](./hardware/README.md) in the hardware folder.
 
 ## Firmware configuration
 

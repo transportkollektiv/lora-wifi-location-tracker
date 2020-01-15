@@ -2,7 +2,7 @@
 
 Lortinchen is a small PCB combining an ESP8266 with an RFM96 for Lora Communication. We use this as a Wifi location tracker in our OpenBike project to track our Bikes.
 
-![](./images/lortinchen.jpg)
+![](./images/lortinchen-top.jpg)
 
 ## Flash firmware
 
