@@ -6,6 +6,7 @@ The location is not calculated on the device. The small data for calculating the
 ## Hardware
 
 You can find .brd and .sch files (created in eagle) and the ready to use gerber files for the *lortinchen*-PCB in the `hardware` folder. More info in [`README.md`](./hardware/README.md) in the hardware folder.
+The board can be power by two AA batteries.
 
 ## Firmware configuration
 
@@ -13,6 +14,8 @@ For LoRaWAN configuration rename `config.sample.h` to `config.h` and fill the fi
 
 ## TTN decoder script
 
+The [TTN](https://www.thethingsnetwork.org/) payload decoder script can be found in [`ttn-decoder-script.js`](./ttn-decoder-script.js).
+
 ## Improve coverage
 
-You can improve [coverage of mozillas location service](https://location.services.mozilla.com/map) using the [mozilla stumbler app](https://play.google.com/store/apps/details?id=org.mozilla.mozstumbler) for android or by[activating location data collection in firefox for android](https://support.mozilla.org/en-US/kb/improve-mozilla-location-services-turning-location).
+You can improve [coverage of mozillas location service](https://location.services.mozilla.com/map) using the [mozilla stumbler app](https://play.google.com/store/apps/details?id=org.mozilla.mozstumbler) for android or by [activating location data collection in firefox for android](https://support.mozilla.org/en-US/kb/improve-mozilla-location-services-turning-location).
