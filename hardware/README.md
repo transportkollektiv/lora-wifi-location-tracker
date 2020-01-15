@@ -2,6 +2,12 @@
 
 Lortinchen is a small PCB combining an ESP8266 with an RFM96 for Lora Communication. We use this as an Wifi location tracker in our OpenBike project to track our Bikes.
 
+## Flash firmware
+
+To flash firmware before soldering the ESP on the PCB, you can use an *ESP-12 test board fixture programmer*. So you don't need to solder a connection to Serial-USB-Adapter and don't need the flash and reset buttons.
+
+If you want to update or flash firmware after soldering you need the 1K resistors and the flash and reset  buttons. Then solder GND, RX, TX and 3V to your Serial-USB-Connector. To go into flash-mode hold flash button, press reset, then release flash button. Now you can flash the firmware from PlatformIO.
+
 ## Parts
 
 ### Required
