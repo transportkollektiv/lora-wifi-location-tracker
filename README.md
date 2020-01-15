@@ -9,7 +9,7 @@ You can find .brd and .sch files (created in eagle) and the ready to use gerber 
 
 ## Firmware configuration
 
-
+For LoraWAN configuration rename `config.sample.h` to `config.h` and fill the file with your LoraWAN device config. Development, configuration, building and flashing can all be done in [PlatformIO](https://platformio.org/). Flashing firmaware to the ESP can easily be done, before soldering to the PCB with an test board fixture programmer. More on this in `hardware/README.md`.
 
 ## TTN decoder script
 
