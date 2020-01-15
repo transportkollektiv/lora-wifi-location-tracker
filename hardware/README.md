@@ -25,3 +25,8 @@ If you want to update or flash firmware after soldering, you need the 1K resisto
  * 2x SMD 2Pin 3X4 mm tactile buttons (for easy flashing and resetting after soldering)
  * 1x AMS111733 LDO (only if power supply is more than 3,3V, but will consume more power)
  * 1x 680K(?) and 1x 100K(?) 0603 resistor (for voltage devider, currently not suppported by firmware, will drain battery, only usefull in combination with AMS111733 or when 3V and 12V supply is bridged)
+
+
+## Power supply
+
+The Board can be powered by two AA (LR6) batteries on the 3V3 pad, without the AMS111733 installed. Our first test-devices are running now for around 4 months without changing batteries.
