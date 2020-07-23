@@ -12,7 +12,6 @@ void os_getArtEui (u1_t* buf) { }
 void os_getDevEui (u1_t* buf) { }
 void os_getDevKey (u1_t* buf) { }
 
-static uint8_t mydata[] = "";
 static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
@@ -72,6 +71,7 @@ void onEvent (ev_t ev) {
             // Schedule next transmission
             //os_setTimedCallback(&sendjob, os_getTime()+sec2osticks(TX_INTERVAL), do_send);
             
+            //LMIC_shutdown();
             
             //Einschlafen
             ESP.deepSleep(SLEEP_DURATION);
@@ -127,6 +127,8 @@ int wifiComparer(const void * w1, const void * w2) {
 int scanWifi(byte* data) {
   WiFi.mode(WIFI_STA);
   int n = WiFi.scanNetworks(false, false);
+  //we dont need the wifi anymore
+  WiFi.forceSleepBegin();
   String ssid;
   uint8_t encryptionType;
   int32_t RSSI;
