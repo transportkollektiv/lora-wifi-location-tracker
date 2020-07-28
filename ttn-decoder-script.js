@@ -48,15 +48,17 @@ function Decoder(bytes, port) {
   var voltage = null;
   if (payloadVersion > 1) {
     var value = parseInt(bytes[1], 10);
-    voltage = (value/1024*4)*7.8;
+    voltage = ((value/1024*4)*7.8).toFixed(2);
+  }
+  
+  var resultData =  {
+    data: JSON.stringify(decoded),
+    payloadVersion: payloadVersion
+  };
+  
+  if (voltage) {
+    resultData['voltage'] = voltage;
   }
 
-  // if (port === 1) decoded.led = bytes[0];
-
-  return {
-    data: JSON.stringify(decoded),
-    payloadVersion: payloadVersion,
-    voltage: voltage
-  };
-  //return {data: decoded};
+  return resultData;
 }
