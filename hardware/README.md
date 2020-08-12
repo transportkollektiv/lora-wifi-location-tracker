@@ -17,7 +17,7 @@ If you want to update or flash firmware after soldering, you need the 1K resisto
  * ESP8266 Modules (ESP-12E or ESP-12F with on board PCB antenna or ESP-07 or ESP-07S for external antennas)
  * RFM96
  * 5x 10K 0603 resistors
- * 1x 100uF 107A capacitor
+ * 1x 100uF (107C/6032) capacitor
 
 ### Optional
 
