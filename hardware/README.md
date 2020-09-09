@@ -23,8 +23,8 @@ If you want to update or flash firmware after soldering, you need the 1K resisto
 
  * 2x 1K 0603 resistors (for serial connection and flashing after soldering)
  * 2x SMD 2Pin 3X4 mm tactile buttons (for easy flashing and resetting after soldering)
- * 1x AMS111733 LDO (only if power supply is more than 3,3V, but will consume more power)
- * 1x 680K(?) and 1x 100K(?) 0603 resistor (for voltage devider, currently not suppported by firmware, will drain battery, only usefull in combination with AMS111733 or when 3V and 12V supply is bridged)
+ * 1x AMS111733 LDO (only if power supply is more than 3,3V, but will consume more power.)
+ * 1x 680K and 1x 100K 0603 resistor (for voltage devider), now supported in the firmware to mesure voltage. If you don't use the AMS111733, connect the 12V and the 3V Pin to mesure voltage.
 
 
 ## Power supply

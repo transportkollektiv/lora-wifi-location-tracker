@@ -12,12 +12,12 @@ void os_getArtEui (u1_t* buf) { }
 void os_getDevEui (u1_t* buf) { }
 void os_getDevKey (u1_t* buf) { }
 
-static uint8_t mydata[] = "";
 static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
 const unsigned int SLEEP_DURATION = 10 * 60 * 1000 * 1000;
+const uint8 PAYLOAD_VERSION = 2;
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
@@ -72,6 +72,7 @@ void onEvent (ev_t ev) {
             // Schedule next transmission
             //os_setTimedCallback(&sendjob, os_getTime()+sec2osticks(TX_INTERVAL), do_send);
             
+            //LMIC_shutdown();
             
             //Einschlafen
             ESP.deepSleep(SLEEP_DURATION);
@@ -98,6 +99,7 @@ void onEvent (ev_t ev) {
     }
 }
 int scanWifi(byte* data);
+uint8 getVoltage();
 void do_send(osjob_t* j){
     // Check if there is not a current TX/RX job running
     if (LMIC.opmode & OP_TXRXPEND) {
@@ -106,11 +108,24 @@ void do_send(osjob_t* j){
         // Prepare upstream data transmission at the next possible time.
         
         byte data[53];
-        int len = scanWifi(data);
+        int len = scanWifi(data+2)+2;
+        data[0] = PAYLOAD_VERSION;
+        data[1] = getVoltage();
         LMIC_setTxData2(1, data, len, 0);
         Serial.println(F("Packet queued"));
     }
     // Next TX is scheduled after TX_COMPLETE event.
+}
+
+uint8 getVoltage() {
+    int voltageRawValue = analogRead(A0);
+    /*Serial.printf("voltageRawValue: %i\n", voltageRawValue);
+    Serial.printf("A0 voltage: %f\n", ((double)voltageRawValue)/(double)1024);
+    double correctedVoltage = ((double)voltageRawValue)/(double)1024*7.8;
+    Serial.printf("corrected voltage: %f\n", correctedVoltage);*/
+    uint8 oneByteValue = voltageRawValue/4;
+    //Serial.printf("oneByteValue: %f\n", oneByteValue);
+    return oneByteValue;
 }
 
 struct minWifi {
@@ -127,6 +142,8 @@ int wifiComparer(const void * w1, const void * w2) {
 int scanWifi(byte* data) {
   WiFi.mode(WIFI_STA);
   int n = WiFi.scanNetworks(false, false);
+  //we dont need the wifi anymore
+  WiFi.forceSleepBegin();
   String ssid;
   uint8_t encryptionType;
   int32_t RSSI;
