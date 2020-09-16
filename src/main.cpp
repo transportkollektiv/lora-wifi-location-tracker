@@ -178,6 +178,7 @@ int scanWifi(byte* data) {
 void setup() {
     Serial.begin(115200);
     Serial.println(F("Starting"));
+    Serial.printf("DEVADDR: 0x%8X\n", DEVADDR);
 
     #ifdef VCC_ENABLE
     // For Pinoccio Scout boards
