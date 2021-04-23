@@ -16,7 +16,7 @@ More on physically flashing firmware at `hardware/README.md`.
 
 ## TTN decoder script
 
-The [TTN](https://www.thethingsnetwork.org/) payload decoder script can be found in [`ttn-decoder-script.js`](./ttn-decoder-script.js).
+The [TTN](https://www.thethingsnetwork.org/) payload decoder script can be found in [`ttn-decoder-script.js`](./ttn-decoder-script.js) for TTN Stack V2 or in [`ttnv3-decoder-script.js`](./ttnv3-decoder-script.js) if you are using TTN Stack V3.
 
 ## Improve coverage
 
