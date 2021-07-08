@@ -1,0 +1,12 @@
+--- ESP8266WiFiScan.cpp	2021-07-08 22:12:08.000000000 +0200
++++ ESP8266WiFiScan.patched.cpp	2021-07-08 22:16:06.000000000 +0200
+@@ -89,6 +89,9 @@
+     config.ssid = ssid;
+     config.channel = channel;
+     config.show_hidden = show_hidden;
++    config.scan_time = wifi_scan_time_t();
++    config.scan_time.passive = 50;
++    config.scan_type = WIFI_SCAN_TYPE_PASSIVE;
+     if(wifi_station_scan(&config, reinterpret_cast<scan_done_cb_t>(&ESP8266WiFiScanClass::_scanDone))) {
+         ESP8266WiFiScanClass::_scanComplete = false;
+         ESP8266WiFiScanClass::_scanStarted = true;

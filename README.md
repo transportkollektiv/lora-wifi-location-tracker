@@ -10,7 +10,9 @@ The board can be power by two AA batteries.
 
 ## Firmware configuration
 
-For LoRaWAN configuration rename `config.sample.h` to `config.h` and fill the file with your LoRaWAN device config. Development, configuration, building and flashing can all be done in [PlatformIO](https://platformio.org/). More on flashing firmware at `hardware/README.md`.
+For LoRaWAN configuration rename `config.sample.h` to `config.h` and fill the file with your LoRaWAN device config. Development, configuration, building and flashing can all be done in [PlatformIO](https://platformio.org/).
+To make the wifi scan more effective, we currently have to patch `ESP8266WiFiScan`. Call `make patch` to modify the file in your platformio framework-arduinoespressif8266 - or look into the `ESP8266WiFiScan.patch` if you want to make the changes yourself.
+More on physically flashing firmware at `hardware/README.md`.
 
 ## TTN decoder script
 
