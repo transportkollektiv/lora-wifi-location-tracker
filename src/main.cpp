@@ -1,3 +1,5 @@
+// we use our own config.h
+#define ARDUINO_LMIC_PROJECT_CONFIG_H_SUPPRESS 1
 #include "config.h"
 
 #include <lmic.h>
