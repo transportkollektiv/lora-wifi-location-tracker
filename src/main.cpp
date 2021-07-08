@@ -1,9 +1,9 @@
+#include "config.h"
+
 #include <lmic.h>
 #include <hal/hal.h>
 #include <SPI.h>
 #include <ESP8266WiFi.h>
-
-#include "config.h"
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
