@@ -16,9 +16,6 @@ void os_getDevKey (u1_t* buf) { }
 
 static osjob_t sendjob;
 
-// Schedule TX every this many seconds (might become longer due to duty
-// cycle limitations).
-const unsigned int SLEEP_DURATION = 10 * 60 * 1000 * 1000;
 const uint8 PAYLOAD_VERSION = 2;
 
 // Pin mapping

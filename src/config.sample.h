@@ -10,4 +10,5 @@ static const uint8_t NWKSKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0
 static const uint8_t APPSKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 // LoRaWAN end-device address (DevAddr)
-static const uint32_t DEVADDR = 0x26000000 ; // <-- Change this address for every node!
+static const uint32_t DEVADDR = 0x26000000 ; // <-- Change this address for every node!// sleeptime in microseconds
+const unsigned int SLEEP_DURATION = 10 * 60 * 1000 * 1000;
