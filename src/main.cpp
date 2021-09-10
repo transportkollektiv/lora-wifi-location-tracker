@@ -7,12 +7,13 @@
 #include <SPI.h>
 #include <ESP8266WiFi.h>
 
-// These callbacks are only used in over-the-air activation, so they are
-// left empty here (we cannot leave them out completely unless
-// DISABLE_JOIN is set in config.h, otherwise the linker will complain).
-void os_getArtEui (u1_t* buf) { }
-void os_getDevEui (u1_t* buf) { }
-void os_getDevKey (u1_t* buf) { }
+void os_getArtEui (u1_t* buf) { memcpy_P(buf, APPEUI, 8); }
+void os_getDevEui (u1_t* buf) { memcpy_P(buf, DEVEUI, 8); }
+void os_getDevKey (u1_t* buf) { memcpy_P(buf, APPKEY, 16); }
+
+u1_t NWKSKEY[16] = {};
+u1_t APPSKEY[16] = {};
+u4_t DEVADDR = 0;
 
 static osjob_t sendjob;
 
@@ -26,7 +27,22 @@ const lmic_pinmap lmic_pins = {
     .dio = { D1, D2, LMIC_UNUSED_PIN },
 };
 
+#define DATAVALID 0xACF2AFC2                     // Pattern for data valid in EEPROM/RTC memory
+                                                 // Change if you want OTAA to renew keys.
+
+struct savdata_t                                 // Structure of data to be saved over reset
+{
+  uint32_t dataValid;                            // DATAVALID if valid data (joined)
+  uint8_t  devaddr[4];                           // Device address after join
+  uint8_t  nwkKey[16];                           // Network session key after join
+  uint8_t  artKey[16];                           // Aplication session key after join
+  uint32_t seqnoUp;                              // Sequence number                      
+};
+savdata_t savdata;
+
 void do_send(osjob_t* );
+void saveLoraToRTCMemory();
+void loadLoraFromRTCMemory();
 
 void onEvent (ev_t ev) {
     Serial.print(os_getTime());
@@ -49,6 +65,14 @@ void onEvent (ev_t ev) {
             break;
         case EV_JOINED:
             Serial.println(F("EV_JOINED"));
+            {
+                u4_t netid = 0;
+                devaddr_t devaddr = 0;
+                u1_t nwkKey[16];
+                u1_t artKey[16];
+                LMIC_getSessionKeys(&netid, &devaddr, nwkKey, artKey);
+            }
+            LMIC_setLinkCheckMode(0);
             break;
         case EV_RFU1:
             Serial.println(F("EV_RFU1"));
@@ -72,6 +96,7 @@ void onEvent (ev_t ev) {
             //os_setTimedCallback(&sendjob, os_getTime()+sec2osticks(TX_INTERVAL), do_send);
             
             //LMIC_shutdown();
+            saveLoraToRTCMemory();
             
             //Einschlafen
             ESP.deepSleep(SLEEP_DURATION);
@@ -197,15 +222,16 @@ void setup() {
     // On AVR, these values are stored in flash and only copied to RAM
     // once. Copy them to a temporary buffer here, LMIC_setSession will
     // copy them into a buffer of its own again.
-    uint8_t appskey[sizeof(APPSKEY)];
-    uint8_t nwkskey[sizeof(NWKSKEY)];
-    memcpy_P(appskey, APPSKEY, sizeof(APPSKEY));
-    memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
-    LMIC_setSession (0x13, DEVADDR, nwkskey, appskey);
+    //uint8_t appskey[sizeof(APPSKEY)];
+    //uint8_t nwkskey[sizeof(NWKSKEY)];
+    //memcpy_P(appskey, APPSKEY, sizeof(APPSKEY));
+    //memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
+    //LMIC_setSession (0x13, DEVADDR, nwkskey, appskey);
     #else
     // If not running an AVR with PROGMEM, just use the arrays directly
-    LMIC_setSession (0x13, DEVADDR, NWKSKEY, APPSKEY);
+    //LMIC_setSession (0x13, DEVADDR, NWKSKEY, APPSKEY);
     #endif
+    loadLoraFromRTCMemory();
 
     #if defined(CFG_eu868)
     // Set up the channels used by the Things Network, which corresponds
@@ -249,6 +275,26 @@ void setup() {
 
     // Start job
     do_send(&sendjob);
+}
+
+void saveLoraToRTCMemory() {
+    memcpy(savdata.devaddr, &LMIC.devaddr, 4);
+    memcpy(savdata.nwkKey, LMIC.nwkKey, 16);
+    memcpy(savdata.artKey, LMIC.artKey, 16);
+    savdata.seqnoUp = LMIC.seqnoUp;
+    savdata.dataValid = DATAVALID;
+    ESP.rtcUserMemoryWrite(0, (uint32_t*) &savdata, sizeof(savdata));
+}
+
+void loadLoraFromRTCMemory() {
+    ESP.rtcUserMemoryRead(0, (uint32_t*) &savdata, sizeof(savdata));
+    if (savdata.dataValid == DATAVALID) {
+        memcpy((uint8_t*)&DEVADDR, savdata.devaddr, sizeof(DEVADDR));
+        memcpy(NWKSKEY, savdata.nwkKey, sizeof(NWKSKEY));          // LoRaWAN NwkSKey, network session key.
+        memcpy(APPSKEY, savdata.artKey, sizeof(APPSKEY));
+        LMIC_setSession(0x1, DEVADDR, NWKSKEY, APPSKEY);
+        LMIC.seqnoUp = savdata.seqnoUp;
+    }
 }
 
 void loop() {
