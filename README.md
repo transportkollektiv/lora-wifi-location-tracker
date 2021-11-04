@@ -1,7 +1,7 @@
-# Lora Wifi Location Tracker
+# LoRa Wifi Location Tracker
 
 This is a ESP8266 and RFM96 based for low power geolocation tracker. It uses wifi networks for location discovery instead of GPS. Accuracy is not as good as GPS and locations can only be calculated if there is any nearby wifi networks. For location calculation a wifi geolocate service like [mozilla](https://location.services.mozilla.com/) or [google](https://developers.google.com/maps/documentation/geolocation/intro) is needed.
-The location is not calculated on the device. The small data for calculating the location is send out via LoRaWAN and can then calculated on server. You can use [cycle-ttn-wifi](https://github.com/stadtulm/cykel-ttn-wifi) as location calculation bridge.
+The location is not calculated on the device. The small data for calculating the location is send out via LoRaWAN and can then calculated on server. You can use [cycle-ttn-wifi](https://github.com/transportkollektiv/cykel-ttn-wifi) as location calculation bridge.
 
 ## Hardware
 
